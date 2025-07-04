@@ -19,7 +19,9 @@ pipeline {
         stage('Testes em container') {
             steps {
                 script {
-                    docker.build("temp_test", "-f Dockerfile.test .").run()
+                    docker.build("temp_test", "-f Dockerfile.test .").inside {
+                        sh 'python -m unittest -v test_temperature.py'
+                    }
                 }
             }
         }
